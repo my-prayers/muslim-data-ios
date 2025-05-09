@@ -6,19 +6,33 @@
 [![License](https://img.shields.io/cocoapods/l/MuslimData.svg?style=flat)](https://cocoapods.org/pods/MuslimData)
 [![Platform](https://img.shields.io/cocoapods/p/MuslimData.svg?style=flat)](https://cocoapods.org/pods/MuslimData)
 
-MuslimData is an Islamic library that provides Prayer Times (fixed and calculated), Offline Geocoder, Location Search, Azkars (Hisnul Muslim) and 99 Names of Allah.
+# Muslim Data iOS
 
-**Fixed and Calculated Prayer Times**:
-Most cities around the world find their prayer times by using some calculations which is based on location (longitude and latitude) but some other cities have fixed time table for their prayer times. This library contains most fixed and calculated prayer times. Now you can contribute it to improve it and also you can use it in Muslim communities or Muslim apps.
+Muslim Data for iOS is a library that brings Islamic data to your iOS applications. It unifies features into a single API so you can easily integrate functionalities such as:
 
-## Migration Guide
-If you're upgrading from version 1.x to version 2.x of `muslim-data-ios`, please refer to the [Migration Guide](MIGRATION_GUIDE.md) for detailed instructions on updating your code to accommodate the changes in the latest release.
+- Fixed or Calculated Prayer Times
+- Offline Geocoding and Reverse Geocoding
+- Location Search
+- Azkars (Hisnul Muslim) with translations
+- 99 Names of Allah with translations
 
-## Example
+## Available on Other Platforms
 
-To run the example project, clone the repo, and run.
+This library is also available for other platform integration:
 
-<img width="40%" src="screenshots/1-prayer-times.png" /> <img width="40%" src="screenshots/2-locations.png" /> <img width="40%" src="screenshots/2-locations-search.png" /> <img width="40%" src="screenshots/3-names.png" /><img width="40%" src="screenshots/4-azkars.png" /> <img width="40%" src="screenshots/5-azkar-detail.png" />
+- [Muslim Data for Android](https://github.com/my-prayers/muslim-data-android)
+- [Muslim Data for Flutter](https://github.com/my-prayers/muslim-data-flutter)
+
+The other platform libraries share the same concepts and data structure, making it easy to develop similar applications across different platforms.
+
+# Features
+
+✅ **Prayer Times**: Most cities around the world find their prayer times by using some calculations which is based on location (longitude and latitude) but some other cities have fixed time table for their prayer times. This library contains most fixed and calculated prayer times. Now you can contribute it to improve it and also you can use it in Muslim communities or Muslim apps.  
+✅ **Location Services**: Search for locations offline, geocode by city name, and reverse geocode using latitude and longitude.  
+✅ **Azkars (Hisnul Muslim)**: Retrieve categorized azkars by (Category, Chapter, Item) in various languages.  
+✅ **Names of Allah**: Access 99 Names of Allah along with translations in supported languages.
+
+# Usage
 
 ## Requirements
 
@@ -58,16 +72,23 @@ If you prefer to manage your Swift packages via Xcode, you can also add Muslim D
 4. Choose the version rule (`Up to Next Major` from version `2.0.0`) and click `Next`.
 5. Xcode will resolve the package and integrate it into your project.
 
-## Usage 
+## Migration Guide
+If you're upgrading from version 1.x to version 2.x of `muslim-data-ios`, please refer to the [Migration Guide](MIGRATION_GUIDE.md) for detailed instructions on updating your code to accommodate the changes in the latest release.
 
-### Location Helper 
+## Example
 
-There are some location helper methods that provides **offline** Location Search, Geocoder, Reverse Geocoder, and check a location for fixed prayer times.
+To run the example project, clone the repo, and run.
 
+<img width="40%" src="screenshots/1-prayer-times.png" /> <img width="40%" src="screenshots/2-locations.png" /> <img width="40%" src="screenshots/2-locations-search.png" /> <img width="40%" src="screenshots/3-names.png" /><img width="40%" src="screenshots/4-azkars.png" /> <img width="40%" src="screenshots/5-azkar-detail.png" />
 
-#### Search for location
+## Location Services
 
-You can search for any cities or places around the world and this is useful when a use doesn't have internet connection or user's location is turned off so you can search here:
+There are some location helper methods in the MuslimRepository that provides **offline Location Search**, **Geocoding**, and **Reverse Geocoding** and also each of one will return `Location` object or list of `Location`. `Location` object contains (`countryCode`, `countryName`, `cityName`, `latitude`, `longitude`, and `hasFixedPrayerTime`).
+
+### Search for a location
+
+You can search for any cities or places around the world and this is useful when a user doesn't have internet connection or user's location is turned off so that you can search here:
+
 ```swift
 let locations = try! await MuslimRepository().searchLocation(locationName: "London")
 guard let locations = locations, locations.count > 0 else {
@@ -77,9 +98,9 @@ guard let locations = locations, locations.count > 0 else {
 print("locations: \(locations)")
 ```
 
-#### Geocoder 
+### Geocode a location
 
-Use geocoder to find a location by name.
+Use geocoder method to find a location by country code and city name.
 
 ```swift
 // Use geocoder to find a location by name.
@@ -91,9 +112,9 @@ guard let location = location else {
 print("location: \(location)")
 ```
 
-#### Reverse Geocoder
+### Reverse Geocode a location
 
-Use reverse geocoder to find a location by latitude and longitude.
+Use reverseGeocoder method to find a location by latitude and longitude.
 
 ```swift 
 // Use reverse geocoder to find a location by its latitude and longitude.
@@ -105,9 +126,9 @@ guard let location = location else {
 print("location: \(location)")
 ```
 
-### Prayer Times 
+## Prayer Times
 
-You can easily get a location prayer times just by passing (`Location`, `PrayerAttribute`, and `Date`) object to `getPrayerTimes` method.
+You can easily get prayer times for a location just by passing (`Location`, `PrayerAttribute`, and `Date`) objects to `getPrayerTimes` method.
 
 ```swift 
 // Create location object.
@@ -127,13 +148,13 @@ print("next prayer interval: \(prayerTime!.nextPrayerInterval())")
 print("next prayer time remaining: \(prayerTime!.nextPrayerTimeRemaining())")
 ```
 
-### Azkars (Hisnul Muslim)
+## Azkars (Hisnul Muslim)
 
-Get all azkars from (**Hisnul Muslim** book) that is categorized by (`Category`, `Chapter`, and `Item`) and also the azkars are available for these languages (`en`, `ar`, `ckb`, `ckb_BADINI`, `fa`, and `ru`)
+Get all azkars from (Hisnul Muslim book) that is categorized by (`AzkarCategory`, `AzkarChapter`, and `AzkarItem`) and also the azkars are available for these languages (`en`, `ar`, `ckb`, `ckb_BADINI`, `fa`, and `ru`)
 
-#### Azkar Categories 
+### Azkar Category
 
-Get all azkar categories and it is localized for the given language.
+Get all azkar categories with its translation for the given language.
 
 ```swift
 // Get azkar categories from MuslimData library
@@ -141,9 +162,9 @@ let azkarCategories = try! await MuslimRepository().getAzkarCategories(language:
 print("Azkar Categories: \(azkarCategories!)")
 ```
 
-#### Azkar Chapters
+### Azkar Chapters
 
-Get azkar chapters and it is localized for the given language.
+Get azkar chapters with its translation for the given language.
 
 ```swift
 // Get azkar chapters from MuslimData library
@@ -151,7 +172,7 @@ let azkarChapters = try! await MuslimRepository().getAzkarChapters(language: .en
 print("Azkar Chapters: \(azkarChapters!)")
 ```
 
-Get azkar chapters for a specific category and it is localized for the given language.
+Get azkar chapters for a specific category with its translation for the given language.
 
 ```swift
 // Get azkar chapters for a specific category from MuslimData library
@@ -159,28 +180,38 @@ let azkarChapters = try! await MuslimRepository().getAzkarChapters(language: .en
 print("Azkar Chapters for a category: \(azkarChapters!)")
 ```
 
-#### Azkar Items
+Get azkar chapters by chapter ids. This method is particularly useful for implementing a favorites feature on azkar. By just saving the azkar ids, you can later retrieve the full details when needed using this method, simplifying management and synchronization of your favorite azkar entries.
+
+```swift
+// Get azkar chapters for a specific category from MuslimData library
+let azkarChapters = try! await MuslimRepository().getAzkarChapters(language: .en, categoryIds: 2)
+print("Azkar Chapters for a category: \(azkarChapters!)")
+```
+
+### Azkar Items
 
 Get azkar items for a specific chapter and it is localized for the given language.
+
 ```swift
 // Get azkar items for a specific chapter from MuslimData library
-let azkarItems = try! await MuslimRepository().getAzkarItems(language: .en, chapterId: 2)
+let azkarItems = try! await MuslimRepository().getAzkarItems(language: .en, chapterId: [3, 5])
 print("azkar items: \(azkarItems!)")
 ```
 
-### Names of Allah 
+## Names of Allah
 
-Get 99 Names of Allah with it's translation and now it is available for these languages (`en`, `ar`, `ckb`, `ckb_BADINI`, `fa`, and `ru`)
+Get 99 Names of Allah with its translation and it is available for these languages (`en`, `ar`, `ckb`, `ckb_BADINI`, `fa`, and `ru`)
 
 ```swift
 // Get 99 names of allah from MuslimData library
 let namesOfAllah = try! await MuslimRepository().getNamesOfAllah(language: .en)
 print("Names of Allah: \(namesOfAllah)")
 ```
-## Author
+
+# Author
 
 Kosrat D. Ahmed, kosrat.d.ahmad@gmail.com
 
-## License
+# License
 
-MuslimData is available under the Apache license. See the [LICENSE](LICENSE) file for more info.
+**Muslim Data for iOS** is available under the MIT license. See the [LICENSE](LICENSE) file for details.
