@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MuslimData'
-  s.version          = '2.3.0'
+  s.version          = '2.4.0'
   s.summary          = 'Islamic library (Prayer Times [fixed and calculated], Names of Allah, and Azkars).'
 
 # This description is used to generate tags and improve search results.
