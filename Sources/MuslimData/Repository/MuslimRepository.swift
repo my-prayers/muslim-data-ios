@@ -51,16 +51,20 @@ public class MuslimRepository: Repository {
     public func getPrayerTimes(location: Location,
                                date: Date,
                                attributes: PrayerAttribute) async throws -> PrayerTime? {
-        var prayerTime: PrayerTime?
-        if location.hasFixedPrayerTime {
-            prayerTime = try await DBHelper.shared.prayerTimes(location: location, date: date)
-            prayerTime?.applyDST()
-        } else {
-            prayerTime = Prayer.getPrayerTimes(location: location, date: date, attributes: attributes)
+        do {
+            var prayerTime: PrayerTime?
+            if location.hasFixedPrayerTime {
+                prayerTime = try await DBHelper.shared.prayerTimes(location: location, date: date)
+                prayerTime?.applyDST()
+            } else {
+                prayerTime = Prayer.getPrayerTimes(location: location, date: date, attributes: attributes)
+            }
+            
+            prayerTime?.applyOffsets(attributes.offsets)
+            return prayerTime
+        } catch {
+            return nil
         }
-
-        prayerTime?.applyOffsets(attributes.offsets)
-        return prayerTime
     }
 
     /// Get names of Allah for the specified language.
