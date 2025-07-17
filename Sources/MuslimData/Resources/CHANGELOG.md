@@ -5,6 +5,12 @@ All notable changes to the MuslimData database will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.5.1] - 2025-07-17
+
+### Fixed
+
+- Fix incorrect Maghrib prayer time for Piranshahr, IR on 6 - 8 Jul
+
 ## [2.5.0] - 2025-04-29
 
 Revert Kalar, IQ prayer times and bug fixes.

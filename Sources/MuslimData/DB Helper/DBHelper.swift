@@ -11,7 +11,7 @@ import Foundation
 class DBHelper {
     // MARK: - Properties
 
-    private let dbName = "muslim_db_v2.5.0"
+    private let dbName = "muslim_db_v2.5.1"
     var dbPool: DatabasePool?
     static let shared = DBHelper()
 
